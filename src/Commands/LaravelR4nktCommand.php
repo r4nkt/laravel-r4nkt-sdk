@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace R4nkt\\LaravelR4nkt\LaravelR4nkt\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelR4nktCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-r4nkt-sdk';
 
     public $description = 'My command';
 
