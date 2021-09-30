@@ -1,6 +1,6 @@
 <?php
 
-namespace R4nkt\\LaravelR4nkt\LaravelR4nkt\Commands;
+namespace R4nkt\LaravelR4nkt\Commands;
 
 use Illuminate\Console\Command;
 

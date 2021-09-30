@@ -1,10 +1,10 @@
 <?php
 
-namespace R4nkt\\LaravelR4nkt\LaravelR4nkt;
+namespace R4nkt\LaravelR4nkt;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use R4nkt\\LaravelR4nkt\LaravelR4nkt\Commands\LaravelR4nktCommand;
+use R4nkt\LaravelR4nkt\Commands\LaravelR4nktCommand;
 
 class LaravelR4nktServiceProvider extends PackageServiceProvider
 {

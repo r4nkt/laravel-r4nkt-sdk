@@ -17,8 +17,8 @@
     ],
     "require": {
         "php": "^8.0",
-        "spatie/laravel-package-tools": "^1.4.3",
-        "illuminate/contracts": "^8.37"
+        "illuminate/contracts": "^8.37",
+        "spatie/laravel-package-tools": "^1.4.3"
     },
     "require-dev": {
         "nunomaduro/collision": "^5.3",
@@ -30,13 +30,13 @@
     },
     "autoload": {
         "psr-4": {
-            "R4nkt\\LaravelR4nkt\\LaravelR4nkt\\": "src",
-            "R4nkt\\LaravelR4nkt\\LaravelR4nkt\\Database\\Factories\\": "database/factories"
+            "R4nkt\\LaravelR4nkt\\": "src",
+            "R4nkt\\LaravelR4nkt\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "R4nkt\\LaravelR4nkt\\LaravelR4nkt\\Tests\\": "tests"
+            "R4nkt\\LaravelR4nkt\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -49,10 +49,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "R4nkt\\LaravelR4nkt\\LaravelR4nkt\\LaravelR4nktServiceProvider"
+                "R4nkt\\LaravelR4nkt\\LaravelR4nktServiceProvider"
             ],
             "aliases": {
-                "LaravelR4nkt": "R4nkt\\LaravelR4nkt\\LaravelR4nkt\\LaravelR4nktFacade"
+                "LaravelR4nkt": "R4nkt\\LaravelR4nkt\\LaravelR4nktFacade"
             }
         }
     },
