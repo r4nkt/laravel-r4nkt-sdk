@@ -4,9 +4,23 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\Actions;
 
-class CreateAction extends ActionRequest
+use R4nkt\LaravelR4nkt\Transporter\Concerns\HasCustomId;
+
+class UpdateAction extends ActionRequest
 {
-    protected string $method = 'POST';
+    use HasCustomId;
+
+    protected string $method = 'PUT';
+
+    protected function guardAgainstMissing()
+    {
+        $this->guardAgainstMissingCustomId();
+    }
+
+    protected function finalizePath()
+    {
+        $this->setPath(self::BASE_PATH . '/' . $this->customId);
+    }
 
     public function customId(string $customId)
     {

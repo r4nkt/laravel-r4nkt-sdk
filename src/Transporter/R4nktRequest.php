@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace R4nkt\LaravelR4nkt\Transporter;
 
 use Illuminate\Http\Client\PendingRequest;
-// use Illuminate\Support\Str;
+use Illuminate\Http\Client\Response;
 use JustSteveKing\Transporter\Request;
 
 /**
@@ -19,9 +19,18 @@ class R4nktRequest extends Request
     // protected string $baseUrl = 'https://api.r4nkt.com/v1/games/{game_id}';
     // protected string $path = '';
 
-    protected array $data = [
-        'completed' => true,
-    ];
+    // protected array $data = [
+    //     'completed' => true,
+    // ];
+
+    public function send(): Response
+    {
+        $this->guardAgainstMissing();
+
+        $this->finalizePath();
+
+        return parent::send();
+    }
 
     protected function withRequest(PendingRequest $request): void
     {
@@ -45,5 +54,15 @@ class R4nktRequest extends Request
     {
         /** @todo ... */
         // $request->pushHandlers();
+    }
+
+    protected function guardAgainstMissing()
+    {
+        // ...
+    }
+
+    protected function finalizePath()
+    {
+        // ...
     }
 }
