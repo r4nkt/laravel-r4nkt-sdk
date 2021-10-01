@@ -17,9 +17,10 @@ class LaravelR4nktServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-r4nkt-sdk')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-r4nkt-sdk_table')
-            ->hasCommand(LaravelR4nktCommand::class);
+            ->hasConfigFile('r4nkt')
+            // ->hasViews()
+            // ->hasMigration('create_laravel-r4nkt-sdk_table')
+            // ->hasCommand(LaravelR4nktCommand::class)
+            ;
     }
 }

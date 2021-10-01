@@ -1,10 +1,10 @@
 <?php
 
-namespace R4nkt\\LaravelR4nkt\LaravelR4nkt\Tests;
+namespace R4nkt\LaravelR4nkt\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use R4nkt\\LaravelR4nkt\LaravelR4nkt\LaravelR4nktServiceProvider;
+use R4nkt\LaravelR4nkt\LaravelR4nktServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'R4nkt\\LaravelR4nkt\\LaravelR4nkt\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'R4nkt\\LaravelR4nkt\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
