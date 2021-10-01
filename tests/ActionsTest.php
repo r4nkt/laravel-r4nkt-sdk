@@ -28,7 +28,8 @@ it('can delete an existing action', function () {
     $customId = 'some-custom-id';
     $name = 'some-name';
 
-    expect(CreateAction::build()
+    expect(
+        CreateAction::build()
         ->customId($customId)
         ->name($name)
         ->send()
@@ -52,7 +53,8 @@ it('can get an existing action', function () {
     $customId = 'some-custom-id';
     $name = 'some-name';
 
-    expect(CreateAction::build()
+    expect(
+        CreateAction::build()
         ->customId($customId)
         ->name($name)
         ->send()
@@ -102,7 +104,7 @@ function createBasicActions(int $count = 1)
 {
     dump("Creating {$count} basic action(s)...");
 
-    for ($x=0; $x < $count; $x++) {
+    for ($x = 0; $x < $count; $x++) {
         CreateAction::build()
             ->customId('custom-action-id-' . $x)
             ->name('action-name-' . $x)
@@ -121,7 +123,8 @@ function clearActions()
         ->collect('data')
         ->each(function ($action) {
             dump(" - Deleting action: {$action['custom_id']}");
-            expect(DeleteAction::build()
+            expect(
+                DeleteAction::build()
                 ->customId($action['custom_id'])
                 ->send()
                 ->status()
