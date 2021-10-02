@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter;
 
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\TransferException;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Request as Psr7Request;
+use GuzzleHttp\Psr7\Response as Psr7Response;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use JustSteveKing\Transporter\Request;
@@ -52,8 +57,56 @@ class R4nktRequest extends Request
 
     protected function pushCustomHandlers(PendingRequest $request)
     {
-        /** @todo ... */
-        // $request->pushHandlers();
+        /** @todo Make this customizable/configurable. */
+        $request->withMiddleware(
+            Middleware::retry($this->retryDecider(), $this->retryDelay()),
+        );
+    }
+
+    public function retryDecider()
+    {
+        /**
+         * The variable, $_request, is not used, but is required. As such, it's
+         * suppressed per:
+         *  - https://psalm.dev/docs/running_psalm/issues/UnusedClosureParam
+         */
+        return function ($retries, Psr7Request $_request, Psr7Response $response = null, TransferException $exception = null) {
+            // Limit the number of retries to 5
+            if ($retries >= 5) {
+                return false;
+            }
+
+            // Retry connection exceptions
+            if ($exception instanceof ConnectException) {
+                return true;
+            }
+
+            if ($response) {
+                // Retry on rate limit hits
+                if ($response->getStatusCode() == 429) {
+                    $this->retryAfter = (int) $response->hasHeader('retry-after') ? (int) $response->getHeader('retry-after')[0] : null;
+
+                    return true;
+                }
+
+                // Retry on server errors
+                if ($response->getStatusCode() >= 500) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+    }
+
+    /**
+     * delay 1s 2s 3s 4s 5s.
+     */
+    public function retryDelay()
+    {
+        return function ($numberOfRetries) {
+            return 1000 * ($this->retryAfter ?: $numberOfRetries);
+        };
     }
 
     protected function guardAgainstMissing()
