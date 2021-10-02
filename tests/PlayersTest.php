@@ -8,7 +8,7 @@ afterEach(function () {
     clearPlayers();
 });
 
-it('can create an player', function () {
+it('can create a player', function () {
     $customId = 'some-custom-id';
     $timeZone = 'Europe/Copenhagen';
     $customData = ['foo' => 'bar'];
@@ -29,7 +29,6 @@ it('can create an player', function () {
 
 it('can delete an existing player', function () {
     $customId = 'some-custom-id';
-    $name = 'some-name';
 
     expect(
         LaravelR4nkt::createPlayer(
@@ -150,6 +149,9 @@ function clearPlayers()
                 LaravelR4nkt::deletePlayer($player['custom_id'])
                     ->status()
             )->toBe(Http::NO_CONTENT);
+
+            /** @todo Consider removing this if/when deleting players is handled "better". */
+            usleep(250000); // Sleep long enough for the player cleanup to take place and for player to actually be deleted...
         });
 
     return test();
