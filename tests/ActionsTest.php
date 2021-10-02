@@ -141,7 +141,7 @@ function createBasicActions(int $count = 1)
 {
     debug("Creating {$count} basic action(s)...");
 
-    for ($x=0; $x < $count; $x++) {
+    for ($x = 0; $x < $count; $x++) {
         LaravelR4nkt::createAction(
             'custom-action-id-' . $x,
             'action-name-' . $x,

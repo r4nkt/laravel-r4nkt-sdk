@@ -26,7 +26,7 @@ class LaravelR4nktServiceProvider extends PackageServiceProvider
 
     public function packageRegistered()
     {
-        $this->app->bind('laravel-r4nkt-sdk', function($app) {
+        $this->app->bind('laravel-r4nkt-sdk', function ($app) {
             return new LaravelR4nkt();
         });
     }
