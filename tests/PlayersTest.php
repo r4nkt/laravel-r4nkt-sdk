@@ -128,7 +128,7 @@ function createBasicPlayers(int $count = 1)
 {
     debug("Creating {$count} basic player(s)...");
 
-    for ($x=0; $x < $count; $x++) {
+    for ($x = 0; $x < $count; $x++) {
         LaravelR4nkt::createPlayer(
             'custom-player-id-' . $x,
         );
