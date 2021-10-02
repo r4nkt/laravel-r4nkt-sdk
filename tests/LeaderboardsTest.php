@@ -141,7 +141,7 @@ function createBasicLeaderboards(int $count = 1)
 {
     debug("Creating {$count} basic leaderboard(s)...");
 
-    for ($x=0; $x < $count; $x++) {
+    for ($x = 0; $x < $count; $x++) {
         LaravelR4nkt::createLeaderboard(
             'custom-leaderboard-id-' . $x,
             'leaderboard-name-' . $x,
