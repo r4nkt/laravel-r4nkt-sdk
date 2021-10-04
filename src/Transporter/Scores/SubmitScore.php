@@ -25,6 +25,6 @@ class SubmitScore extends ScoreRequest
 
     public function dateTimeUtc(string $dateTimeUtc)
     {
-        return $this->withData(['date_time_utc' => json_encode($dateTimeUtc)]);
+        return $this->withData(['date_time_utc' => $dateTimeUtc]);
     }
 }

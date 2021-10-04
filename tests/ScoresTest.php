@@ -9,7 +9,7 @@ afterEach(function () {
     clearLeaderboards();
 });
 
-it('can submit an score', function () {
+it('can submit a score', function () {
     $customPlayerId = 'test-player-id';
     expect(
         LaravelR4nkt::createPlayer(
