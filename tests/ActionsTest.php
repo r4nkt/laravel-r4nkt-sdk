@@ -1,6 +1,9 @@
 <?php
 
 use JustSteveKing\StatusCode\Http;
+use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
+use R4nkt\LaravelR4nkt\Transporter\Actions\GetAction;
+use R4nkt\LaravelR4nkt\Transporter\Actions\UpdateAction;
 
 uses()->group('action');
 
@@ -67,6 +70,11 @@ it('can get an existing action', function () {
     expect($response->json('data.name'))->toBe($name);
 });
 
+it('cannot get an action without a custom id', function () {
+    GetAction::build()
+        ->send();
+})->throws(IncompleteRequest::class);
+
 it('can update an existing action', function () {
     $customId = 'some-custom-id';
     $name = 'some-name';
@@ -108,6 +116,11 @@ it('can update an existing action', function () {
     expect($response->json('data.description'))->toBe($newDescription);
     expect($response->json('data.custom_data'))->toBe($newCustomData);
 });
+
+it('cannot update an action without a custom id', function () {
+    UpdateAction::build()
+        ->send();
+})->throws(IncompleteRequest::class);
 
 it('can list actions', function () {
     createBasicActions($count = 10);

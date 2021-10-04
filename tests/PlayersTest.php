@@ -1,6 +1,9 @@
 <?php
 
 use JustSteveKing\StatusCode\Http;
+use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
+use R4nkt\LaravelR4nkt\Transporter\Players\GetPlayer;
+use R4nkt\LaravelR4nkt\Transporter\Players\UpdatePlayer;
 
 uses()->group('player');
 
@@ -59,6 +62,11 @@ it('can get an existing player', function () {
     expect($response->json('data.custom_id'))->toBe($customId);
 });
 
+it('cannot get a player without a custom id', function () {
+    GetPlayer::build()
+        ->send();
+})->throws(IncompleteRequest::class);
+
 it('can update an existing player', function () {
     $customId = 'some-custom-id';
 
@@ -94,6 +102,11 @@ it('can update an existing player', function () {
     expect($response->json('data.time_zone'))->toBe($newTimeZone);
     expect($response->json('data.custom_data'))->toBe($newCustomData);
 });
+
+it('cannot update a player without a custom id', function () {
+    UpdatePlayer::build()
+        ->send();
+})->throws(IncompleteRequest::class);
 
 it('can list players', function () {
     createBasicPlayers($count = 10);

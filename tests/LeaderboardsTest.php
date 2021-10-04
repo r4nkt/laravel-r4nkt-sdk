@@ -1,6 +1,9 @@
 <?php
 
 use JustSteveKing\StatusCode\Http;
+use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
+use R4nkt\LaravelR4nkt\Transporter\Leaderboards\GetLeaderboard;
+use R4nkt\LaravelR4nkt\Transporter\Leaderboards\UpdateLeaderboard;
 
 uses()->group('leaderboard');
 
@@ -67,6 +70,11 @@ it('can get an existing leaderboard', function () {
     expect($response->json('data.name'))->toBe($name);
 });
 
+it('cannot get a leaderboard without a custom id', function () {
+    GetLeaderboard::build()
+        ->send();
+})->throws(IncompleteRequest::class);
+
 it('can update an existing leaderboard', function () {
     $customId = 'some-custom-id';
     $name = 'some-name';
@@ -109,7 +117,12 @@ it('can update an existing leaderboard', function () {
     expect($response->json('data.custom_data'))->toBe($newCustomData);
 });
 
-it('can list Leaderboards', function () {
+it('cannot update a leaderboard without a custom id', function () {
+    UpdateLeaderboard::build()
+        ->send();
+})->throws(IncompleteRequest::class);
+
+it('can list leaderboards', function () {
     createBasicLeaderboards($count = 10);
 
     $response = LaravelR4nkt::listLeaderboards();
@@ -118,7 +131,7 @@ it('can list Leaderboards', function () {
     expect($response->collect('data')->count())->toBe($count);
 });
 
-it('can paginate Leaderboards', function () {
+it('can paginate leaderboards', function () {
     createBasicLeaderboards($count = 10);
 
     $pageNumber = 2;

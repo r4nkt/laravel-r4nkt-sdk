@@ -1,6 +1,9 @@
 <?php
 
 use JustSteveKing\StatusCode\Http;
+use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
+use R4nkt\LaravelR4nkt\Transporter\Rewards\GetReward;
+use R4nkt\LaravelR4nkt\Transporter\Rewards\UpdateReward;
 
 uses()->group('reward');
 
@@ -67,6 +70,11 @@ it('can get an existing reward', function () {
     expect($response->json('data.name'))->toBe($name);
 });
 
+it('cannot get a reward without a custom id', function () {
+    GetReward::build()
+        ->send();
+})->throws(IncompleteRequest::class);
+
 it('can update an existing reward', function () {
     $customId = 'some-custom-id';
     $name = 'some-name';
@@ -108,6 +116,11 @@ it('can update an existing reward', function () {
     expect($response->json('data.description'))->toBe($newDescription);
     expect($response->json('data.custom_data'))->toBe($newCustomData);
 });
+
+it('cannot update a reward without a custom id', function () {
+    UpdateReward::build()
+        ->send();
+})->throws(IncompleteRequest::class);
 
 it('can list rewards', function () {
     createBasicRewards($count = 10);

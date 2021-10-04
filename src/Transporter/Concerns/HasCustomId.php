@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\Concerns;
 
+use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
+
 trait HasCustomId
 {
     protected string $customId;
@@ -18,7 +20,7 @@ trait HasCustomId
     protected function guardAgainstMissingCustomId()
     {
         if (! isset($this->customId)) {
-            throw new \Exception('missing required custom ID');
+            throw IncompleteRequest::missingRequiredParameter('custom ID');
         }
     }
 }
