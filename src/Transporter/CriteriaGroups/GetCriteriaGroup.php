@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\CriteriaGroups;
 
-use R4nkt\LaravelR4nkt\Transporter\Concerns\HasCustomId;
+use R4nkt\LaravelR4nkt\Transporter\Concerns\HasCustomIdInPath;
 
 class GetCriteriaGroup extends CriteriaGroupRequest
 {
-    use HasCustomId;
+    use HasCustomIdInPath;
 
     protected string $method = 'GET';
 

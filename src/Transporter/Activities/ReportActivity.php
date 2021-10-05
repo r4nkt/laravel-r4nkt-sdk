@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace R4nkt\LaravelR4nkt\Transporter\Activities;
 
 use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
+use R4nkt\LaravelR4nkt\Transporter\Concerns;
 
 class ReportActivity extends ActivityRequest
 {
+    use Concerns\PassesCustomData;
+
     protected string $method = 'POST';
 
     protected function guardAgainstMissing()
@@ -43,11 +46,6 @@ class ReportActivity extends ActivityRequest
     public function amount(int $amount)
     {
         return $this->withData(['amount' => $amount]);
-    }
-
-    public function customData(array $customData)
-    {
-        return $this->withData(['custom_data' => json_encode($customData)]);
     }
 
     public function customSessionId(string $customSessionId)

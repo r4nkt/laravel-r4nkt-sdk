@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\CriteriaGroups;
 
-use R4nkt\LaravelR4nkt\Transporter\Concerns\HasCustomId;
+use R4nkt\LaravelR4nkt\Transporter\Concerns;
 
 class UpdateCriteriaGroup extends CriteriaGroupRequest
 {
-    use HasCustomId;
+    use Concerns\HasCustomIdInPath;
+    use Concerns\PassesCustomId;
+    use Concerns\PassesName;
+    use Concerns\PassesDescription;
 
     protected string $method = 'PUT';
 
@@ -20,21 +23,6 @@ class UpdateCriteriaGroup extends CriteriaGroupRequest
     protected function finalizePath()
     {
         $this->setPath(self::BASE_PATH . '/' . $this->customId);
-    }
-
-    public function customId(string $customId)
-    {
-        return $this->withData(['custom_id' => $customId]);
-    }
-
-    public function name(string $name)
-    {
-        return $this->withData(['name' => $name]);
-    }
-
-    public function description(string $description)
-    {
-        return $this->withData(['description' => $description]);
     }
 
     public function operator(string $operator)

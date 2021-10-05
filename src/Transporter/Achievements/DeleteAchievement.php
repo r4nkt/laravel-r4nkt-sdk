@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\Achievements;
 
-use R4nkt\LaravelR4nkt\Transporter\Concerns\HasCustomId;
+use R4nkt\LaravelR4nkt\Transporter\Concerns\HasCustomIdInPath;
 
 class DeleteAchievement extends AchievementRequest
 {
-    use HasCustomId;
+    use HasCustomIdInPath;
 
     protected string $method = 'DELETE';
 

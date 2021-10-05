@@ -6,7 +6,7 @@ namespace R4nkt\LaravelR4nkt\Transporter\Concerns;
 
 use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
 
-trait HasCustomId
+trait HasCustomIdInPath
 {
     protected string $customId;
 

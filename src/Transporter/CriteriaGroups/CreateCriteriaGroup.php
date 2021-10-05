@@ -4,24 +4,15 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\CriteriaGroups;
 
+use R4nkt\LaravelR4nkt\Transporter\Concerns;
+
 class CreateCriteriaGroup extends CriteriaGroupRequest
 {
+    use Concerns\PassesCustomId;
+    use Concerns\PassesName;
+    use Concerns\PassesDescription;
+
     protected string $method = 'POST';
-
-    public function customId(string $customId)
-    {
-        return $this->withData(['custom_id' => $customId]);
-    }
-
-    public function name(string $name)
-    {
-        return $this->withData(['name' => $name]);
-    }
-
-    public function description(string $description)
-    {
-        return $this->withData(['description' => $description]);
-    }
 
     public function operator(string $operator)
     {

@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\Achievements;
 
-use R4nkt\LaravelR4nkt\Transporter\Concerns\HasCustomId;
+use R4nkt\LaravelR4nkt\Transporter\Concerns;
 
 class UpdateAchievement extends AchievementRequest
 {
-    use HasCustomId;
+    use Concerns\HasCustomIdInPath;
+    use Concerns\PassesCustomId;
+    use Concerns\PassesName;
+    use Concerns\PassesDescription;
+    use Concerns\PassesCustomData;
 
     protected string $method = 'PUT';
 
@@ -20,21 +24,6 @@ class UpdateAchievement extends AchievementRequest
     protected function finalizePath()
     {
         $this->setPath(self::BASE_PATH . '/' . $this->customId);
-    }
-
-    public function customId(string $customId)
-    {
-        return $this->withData(['custom_id' => $customId]);
-    }
-
-    public function name(string $name)
-    {
-        return $this->withData(['name' => $name]);
-    }
-
-    public function description(string $description)
-    {
-        return $this->withData(['description' => $description]);
     }
 
     public function isSecret(bool $isSecret)
@@ -50,10 +39,5 @@ class UpdateAchievement extends AchievementRequest
     public function points(int $points)
     {
         return $this->withData(['points' => $points]);
-    }
-
-    public function customData(array $customData)
-    {
-        return $this->withData(['custom_data' => json_encode($customData)]);
     }
 }
