@@ -9,7 +9,11 @@ use R4nkt\LaravelR4nkt\Transporter\Concerns;
 
 class ReportActivity extends ActivityRequest
 {
+    use Concerns\PassesCustomPlayerId;
+    use Concerns\PassesCustomActionId;
     use Concerns\PassesCustomData;
+    use Concerns\PassesCustomSessionId;
+    use Concerns\PassesDateTimeUtc;
 
     protected string $method = 'POST';
 
@@ -33,28 +37,8 @@ class ReportActivity extends ActivityRequest
         }
     }
 
-    public function customPlayerId(string $customPlayerId)
-    {
-        return $this->withData(['custom_player_id' => $customPlayerId]);
-    }
-
-    public function customActionId(string $customActionId)
-    {
-        return $this->withData(['custom_action_id' => $customActionId]);
-    }
-
     public function amount(int $amount)
     {
         return $this->withData(['amount' => $amount]);
-    }
-
-    public function customSessionId(string $customSessionId)
-    {
-        return $this->withData(['custom_session_id' => $customSessionId]);
-    }
-
-    public function dateTimeUtc(string $dateTimeUtc)
-    {
-        return $this->withData(['date_time_utc' => $dateTimeUtc]);
     }
 }

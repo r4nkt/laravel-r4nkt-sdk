@@ -12,6 +12,7 @@ class UpdateCriteriaGroup extends CriteriaGroupRequest
     use Concerns\PassesCustomId;
     use Concerns\PassesName;
     use Concerns\PassesDescription;
+    use Concerns\PassesConditions;
 
     protected string $method = 'PUT';
 
@@ -43,10 +44,5 @@ class UpdateCriteriaGroup extends CriteriaGroupRequest
     public function xor()
     {
         return $this->operator('xor');
-    }
-
-    public function conditions(array $conditions)
-    {
-        return $this->withData(['conditions' => json_encode($conditions)]);
     }
 }

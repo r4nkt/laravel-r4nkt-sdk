@@ -12,6 +12,7 @@ class CreateLeaderboard extends LeaderboardRequest
     use Concerns\PassesName;
     use Concerns\PassesDescription;
     use Concerns\PassesCustomData;
+    use Concerns\PassesCustomSessionId;
 
     protected string $method = 'POST';
 
@@ -73,10 +74,5 @@ class CreateLeaderboard extends LeaderboardRequest
     public function preferLast()
     {
         return $this->scorePreference('prefer-last');
-    }
-
-    public function customSessionId(string $customSessionId)
-    {
-        return $this->withData(['custom_session_id' => $customSessionId]);
     }
 }

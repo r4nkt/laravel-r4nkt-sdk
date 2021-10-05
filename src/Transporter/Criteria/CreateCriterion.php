@@ -9,8 +9,10 @@ use R4nkt\LaravelR4nkt\Transporter\Concerns;
 class CreateCriterion extends CriterionRequest
 {
     use Concerns\PassesCustomId;
+    use Concerns\PassesCustomActionId;
     use Concerns\PassesName;
     use Concerns\PassesDescription;
+    use Concerns\PassesConditions;
 
     protected string $method = 'POST';
 
@@ -32,16 +34,6 @@ class CreateCriterion extends CriterionRequest
     public function average()
     {
         return $this->type('average');
-    }
-
-    public function customActionId(string $customActionId)
-    {
-        return $this->withData(['custom_action_id' => $customActionId]);
-    }
-
-    public function conditions(array $conditions)
-    {
-        return $this->withData(['conditions' => json_encode($conditions)]);
     }
 
     public function rule(string $rule)

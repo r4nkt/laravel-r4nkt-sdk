@@ -10,8 +10,10 @@ class UpdateCriterion extends CriterionRequest
 {
     use Concerns\HasCustomIdInPath;
     use Concerns\PassesCustomId;
+    use Concerns\PassesCustomActionId;
     use Concerns\PassesName;
     use Concerns\PassesDescription;
+    use Concerns\PassesConditions;
 
     protected string $method = 'PUT';
 
@@ -25,8 +27,33 @@ class UpdateCriterion extends CriterionRequest
         $this->setPath(self::BASE_PATH . '/' . $this->customId);
     }
 
-    public function customActionId(string $customActionId)
+    public function type(string $type)
     {
-        return $this->withData(['custom_action_id' => $customActionId]);
+        return $this->withData(['type' => $type]);
+    }
+
+    public function sum()
+    {
+        return $this->type('sum');
+    }
+
+    public function amount()
+    {
+        return $this->type('amount');
+    }
+
+    public function average()
+    {
+        return $this->type('average');
+    }
+
+    public function rule(string $rule)
+    {
+        return $this->withData(['rule' => $rule]);
+    }
+
+    public function streak(string $streak)
+    {
+        return $this->withData(['streak' => $streak]);
     }
 }

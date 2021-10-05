@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\Scores;
 
+use R4nkt\LaravelR4nkt\Transporter\Concerns;
+
 class SubmitScore extends ScoreRequest
 {
-    protected string $method = 'POST';
+    use Concerns\PassesCustomPlayerId;
+    use Concerns\PassesDateTimeUtc;
 
-    public function customPlayerId(string $customPlayerId)
-    {
-        return $this->withData(['custom_player_id' => $customPlayerId]);
-    }
+    protected string $method = 'POST';
 
     public function customLeaderboardId(string $customLeaderboardId)
     {
@@ -21,10 +21,5 @@ class SubmitScore extends ScoreRequest
     public function score(int $score)
     {
         return $this->withData(['score' => $score]);
-    }
-
-    public function dateTimeUtc(string $dateTimeUtc)
-    {
-        return $this->withData(['date_time_utc' => $dateTimeUtc]);
     }
 }
