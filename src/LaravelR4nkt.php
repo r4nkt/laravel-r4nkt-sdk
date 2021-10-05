@@ -2,23 +2,15 @@
 
 namespace R4nkt\LaravelR4nkt;
 
-use R4nkt\LaravelR4nkt\Concerns\ManagesActions;
-use R4nkt\LaravelR4nkt\Concerns\ManagesActivities;
-use R4nkt\LaravelR4nkt\Concerns\ManagesCriteria;
-use R4nkt\LaravelR4nkt\Concerns\ManagesLeaderboardRankings;
-use R4nkt\LaravelR4nkt\Concerns\ManagesLeaderboards;
-use R4nkt\LaravelR4nkt\Concerns\ManagesPlayers;
-use R4nkt\LaravelR4nkt\Concerns\ManagesRewards;
-use R4nkt\LaravelR4nkt\Concerns\ManagesScores;
-
 class LaravelR4nkt
 {
-    use ManagesActions;
-    use ManagesActivities;
-    use ManagesCriteria;
-    use ManagesLeaderboardRankings;
-    use ManagesLeaderboards;
-    use ManagesPlayers;
-    use ManagesRewards;
-    use ManagesScores;
+    use Concerns\ManagesActions;
+    use Concerns\ManagesActivities;
+    use Concerns\ManagesCriteria;
+    use Concerns\ManagesCriteriaGroups;
+    use Concerns\ManagesLeaderboardRankings;
+    use Concerns\ManagesLeaderboards;
+    use Concerns\ManagesPlayers;
+    use Concerns\ManagesRewards;
+    use Concerns\ManagesScores;
 }
