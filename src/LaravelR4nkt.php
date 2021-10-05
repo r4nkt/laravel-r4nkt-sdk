@@ -4,6 +4,7 @@ namespace R4nkt\LaravelR4nkt;
 
 class LaravelR4nkt
 {
+    use Concerns\ManagesAchievements;
     use Concerns\ManagesActions;
     use Concerns\ManagesActivities;
     use Concerns\ManagesCriteria;
