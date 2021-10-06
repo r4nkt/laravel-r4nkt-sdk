@@ -34,4 +34,14 @@ class CreateCriteriaGroup extends CriteriaGroupRequest
     {
         return $this->operator('xor');
     }
+
+    public function customCriteriaIds(array $customCriteriaIds)
+    {
+        return $this->withData(['criteria' => $customCriteriaIds]);
+    }
+
+    public function customCriteriaGroupIds(array $customCriteriaIds)
+    {
+        return $this->withData(['criteria_groups' => $customCriteriaIds]);
+    }
 }
