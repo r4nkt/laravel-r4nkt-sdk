@@ -24,11 +24,16 @@ trait ManagesCriteriaGroups
         return $request->send();
     }
 
-    public function getCriteriaGroup(string $customId)
+    public function getCriteriaGroup(string $customId, ?Closure $callback = null)
     {
-        return GetCriteriaGroup::build()
-            ->forCustomId($customId)
-            ->send();
+        $request = GetCriteriaGroup::build()
+            ->forCustomId($customId);
+
+        if ($callback) {
+            $callback($request);
+        }
+
+        return $request->send();
     }
 
     public function createCriteriaGroup(string $customId, string $name, ?Closure $callback = null)
