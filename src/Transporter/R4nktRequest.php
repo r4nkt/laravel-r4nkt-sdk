@@ -28,13 +28,37 @@ class R4nktRequest extends Request
     //     'completed' => true,
     // ];
 
+    protected array $includes = [];
+
+    public ?int $retryAfter = null;
+
     public function send(): Response
     {
         $this->guardAgainstMissing();
 
+        $this->finalizeIncludes();
+
         $this->finalizePath();
 
         return parent::send();
+    }
+
+    protected function include(string $include): static
+    {
+        $this->includes[] = $include;
+
+        return $this;
+    }
+
+    protected function finalizeIncludes()
+    {
+        $includes = collect($this->includes)->filter();
+
+        if ($includes->isEmpty()) {
+            return;
+        }
+
+        $this->withQuery(['include' => $includes->implode(',')]);
     }
 
     protected function withRequest(PendingRequest $request): void

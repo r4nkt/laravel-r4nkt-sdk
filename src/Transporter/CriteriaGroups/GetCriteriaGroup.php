@@ -21,4 +21,14 @@ class GetCriteriaGroup extends CriteriaGroupRequest
     {
         $this->setPath(self::BASE_PATH . '/' . $this->customId);
     }
+
+    public function includeCriteria()
+    {
+        return $this->include('criteria');
+    }
+
+    public function includeCriteriaGroups()
+    {
+        return $this->include('criteria-groups');
+    }
 }

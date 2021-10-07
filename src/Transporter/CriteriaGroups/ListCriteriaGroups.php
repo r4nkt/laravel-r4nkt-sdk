@@ -11,4 +11,14 @@ class ListCriteriaGroups extends CriteriaGroupRequest
     use AllowsPagination;
 
     protected string $method = 'GET';
+
+    public function includeCriteria()
+    {
+        return $this->include('criteria');
+    }
+
+    public function includeCriteriaGroups()
+    {
+        return $this->include('criteria-groups');
+    }
 }
