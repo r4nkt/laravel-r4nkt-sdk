@@ -8,6 +8,6 @@ trait PassesConditions
 {
     public function conditions(array $conditions)
     {
-        return $this->withData(['conditions' => json_encode($conditions)]);
+        return $this->withData(['conditions' => $conditions]);
     }
 }

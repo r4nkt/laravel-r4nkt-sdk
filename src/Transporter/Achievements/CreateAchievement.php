@@ -25,6 +25,11 @@ class CreateAchievement extends AchievementRequest
         return $this->withData(['custom_criteria_group_id' => $customCriteriaGroupId]);
     }
 
+    public function criteriaGroupDefinition(array $criteriaGroupDefinition)
+    {
+        return $this->withData(['criteria_group' => $criteriaGroupDefinition]);
+    }
+
     public function points(int $points)
     {
         return $this->withData(['points' => $points]);

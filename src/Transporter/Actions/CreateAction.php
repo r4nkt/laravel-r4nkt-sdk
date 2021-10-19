@@ -14,4 +14,9 @@ class CreateAction extends ActionRequest
     use Concerns\PassesCustomData;
 
     protected string $method = 'POST';
+
+    public function customReactionIds(array $customReactionIds)
+    {
+        return $this->withData(['reactions' => $customReactionIds]);
+    }
 }
