@@ -311,7 +311,9 @@ function clearCriteriaGroups()
 {
     debug('Clearing all criteria groups...');
 
-    LaravelR4nkt::listCriteriaGroups()
+    LaravelR4nkt::listCriteriaGroups(function ($request) {
+        $request->pageSize(100);
+    })
         ->collect('data')
         ->each(function ($criteriaGroup) {
             debug(" - Deleting criteria group: {$criteriaGroup['custom_id']}");

@@ -215,7 +215,9 @@ function clearCriteria()
 {
     debug('Clearing all criteria...');
 
-    LaravelR4nkt::listCriteria()
+    LaravelR4nkt::listCriteria(function ($request) {
+        $request->pageSize(100);
+    })
         ->collect('data')
         ->each(function ($criterion) {
             debug(" - Deleting criterion: {$criterion['custom_id']}");

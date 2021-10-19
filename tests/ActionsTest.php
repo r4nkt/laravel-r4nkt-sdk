@@ -168,7 +168,9 @@ function clearActions()
 {
     debug('Clearing all actions...');
 
-    LaravelR4nkt::listActions()
+    LaravelR4nkt::listActions(function ($request) {
+        $request->pageSize(100);
+    })
         ->collect('data')
         ->each(function ($action) {
             debug(" - Deleting action: {$action['custom_id']}");

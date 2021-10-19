@@ -196,7 +196,7 @@ function clearAchievements()
 {
     debug('Clearing all achievements...');
 
-    LaravelR4nkt::listAchievements(fn ($request) => $request->withSecrets())
+    LaravelR4nkt::listAchievements(fn ($request) => $request->pageSize(100)->withSecrets())
         ->collect('data')
         ->each(function ($achievement) {
             debug(" - Deleting achievement: {$achievement['custom_id']}");
