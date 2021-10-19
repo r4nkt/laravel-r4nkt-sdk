@@ -11,6 +11,7 @@ class LaravelR4nkt
     use Concerns\ManagesCriteriaGroups;
     use Concerns\ManagesLeaderboardRankings;
     use Concerns\ManagesLeaderboards;
+    use Concerns\ManagesPlayerBadges;
     use Concerns\ManagesPlayers;
     use Concerns\ManagesRewards;
     use Concerns\ManagesScores;
