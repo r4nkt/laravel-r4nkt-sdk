@@ -1,10 +1,7 @@
 <?php
 
 use JustSteveKing\StatusCode\Http;
-use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
 use R4nkt\LaravelR4nkt\Tests\Scenarios\PrepsGame;
-use R4nkt\LaravelR4nkt\Transporter\Actions\GetAction;
-use R4nkt\LaravelR4nkt\Transporter\Actions\UpdateAction;
 
 uses(PrepsGame::class)->group('scenario');
 
