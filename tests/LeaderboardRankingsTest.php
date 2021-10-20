@@ -6,104 +6,122 @@ use R4nkt\LaravelR4nkt\Transporter\LeaderboardRankings\ListLeaderboardRankings;
 
 uses()->group('leaderboard-ranking');
 
+beforeEach(function () {
+    /**
+     * Create two different leaderboards:
+     *  - larger-is-better
+     *  - smaller-is-better
+     */
+    expect(
+        LaravelR4nkt::createLeaderboard(
+            'custom.leaderboard.larger',
+            'custom.leaderboard.larger',
+            function ($request) {
+                $request->custom();
+            },
+        )->status()
+    )->toBe(Http::CREATED);
+
+    expect(
+        LaravelR4nkt::createLeaderboard(
+            'custom.leaderboard.smaller',
+            'custom.leaderboard.smaller',
+            function ($request) {
+                $request->custom()
+                    ->smallerIsBetter();
+            },
+        )->status()
+    )->toBe(Http::CREATED);
+
+    /**
+     * Now populate the two different leaderboards
+     *  - same order
+     *  - same people,
+     *  - same scores
+     */
+    LaravelR4nkt::submitScore('homer', 'custom.leaderboard.larger', 20);
+    LaravelR4nkt::submitScore('marge', 'custom.leaderboard.larger', 5);
+
+    LaravelR4nkt::submitScore('bart', 'custom.leaderboard.larger', 10);
+    LaravelR4nkt::submitScore('lisa', 'custom.leaderboard.larger', 10);
+    LaravelR4nkt::submitScore('maggie', 'custom.leaderboard.larger', 10);
+
+    LaravelR4nkt::submitScore('abe', 'custom.leaderboard.larger', 20);
+    LaravelR4nkt::submitScore('mona', 'custom.leaderboard.larger', 5);
+
+    LaravelR4nkt::submitScore('homer', 'custom.leaderboard.smaller', 20);
+    LaravelR4nkt::submitScore('marge', 'custom.leaderboard.smaller', 5);
+
+    LaravelR4nkt::submitScore('bart', 'custom.leaderboard.smaller', 10);
+    LaravelR4nkt::submitScore('lisa', 'custom.leaderboard.smaller', 10);
+    LaravelR4nkt::submitScore('maggie', 'custom.leaderboard.smaller', 10);
+
+    LaravelR4nkt::submitScore('abe', 'custom.leaderboard.smaller', 20);
+    LaravelR4nkt::submitScore('mona', 'custom.leaderboard.smaller', 5);
+});
+
 afterEach(function () {
     clearLeaderboards();
     clearPlayers();
 });
 
 it('can list larger-is-better leaderboard rankings', function () {
-    $customLeaderboardId = 'custom-leaderboard-id';
-    LaravelR4nkt::createLeaderboard(
-        $customLeaderboardId,
-        'leaderboard-name',
-        function ($request) {
-            $request->custom(); // only one standard leaderboard per game allowed...for now...
-        },
-    );
-
-    LaravelR4nkt::submitScore('homer', $customLeaderboardId, 20);
-    LaravelR4nkt::submitScore('marge', $customLeaderboardId, 5);
-
-    LaravelR4nkt::submitScore('bart', $customLeaderboardId, 10);
-    LaravelR4nkt::submitScore('lisa', $customLeaderboardId, 10);
-    LaravelR4nkt::submitScore('maggie', $customLeaderboardId, 10);
-
-    LaravelR4nkt::submitScore('abe', $customLeaderboardId, 20);
-    LaravelR4nkt::submitScore('mona', $customLeaderboardId, 5);
-
-    $response = LaravelR4nkt::listLeaderboardRankings($customLeaderboardId);
+    $response = LaravelR4nkt::listLeaderboardRankings('custom.leaderboard.larger');
 
     expect($response->status())->toBe(Http::OK);
-    expect($response->collect('data')->count())->toBe(7);
-    expect($response->collect('data'))->sequence(
-        [
-            'time_span' => 'all-time',
-            'score' => 20,
-            'rank' => 0,
-            'custom_player_id' => 'homer',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 20,
-            'rank' => 1,
-            'custom_player_id' => 'abe',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 10,
-            'rank' => 2,
-            'custom_player_id' => 'bart',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 10,
-            'rank' => 3,
-            'custom_player_id' => 'lisa',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 10,
-            'rank' => 4,
-            'custom_player_id' => 'maggie',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 5,
-            'rank' => 5,
-            'custom_player_id' => 'marge',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 5,
-            'rank' => 6,
-            'custom_player_id' => 'mona',
-        ],
-    );
+    expect($response->collect('data'))
+        ->toHaveCount(7)
+        ->sequence(
+            [
+                'time_span' => 'all-time',
+                'score' => 20,
+                'rank' => 0,
+                'custom_player_id' => 'homer',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 20,
+                'rank' => 1,
+                'custom_player_id' => 'abe',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 10,
+                'rank' => 2,
+                'custom_player_id' => 'bart',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 10,
+                'rank' => 3,
+                'custom_player_id' => 'lisa',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 10,
+                'rank' => 4,
+                'custom_player_id' => 'maggie',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 5,
+                'rank' => 5,
+                'custom_player_id' => 'marge',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 5,
+                'rank' => 6,
+                'custom_player_id' => 'mona',
+            ],
+        );
 });
 
 it('can paginate larger-is-better leaderboard rankings', function () {
-    $customLeaderboardId = 'custom-leaderboard-id';
-    LaravelR4nkt::createLeaderboard(
-        $customLeaderboardId,
-        'leaderboard-name',
-        function ($request) {
-            $request->custom(); // only one standard leaderboard per game allowed...for now...
-        },
-    );
-
-    LaravelR4nkt::submitScore('homer', $customLeaderboardId, 20);
-    LaravelR4nkt::submitScore('marge', $customLeaderboardId, 5);
-
-    LaravelR4nkt::submitScore('bart', $customLeaderboardId, 10);
-    LaravelR4nkt::submitScore('lisa', $customLeaderboardId, 10);
-    LaravelR4nkt::submitScore('maggie', $customLeaderboardId, 10);
-
-    LaravelR4nkt::submitScore('abe', $customLeaderboardId, 20);
-    LaravelR4nkt::submitScore('mona', $customLeaderboardId, 5);
-
     $pageNumber = 2;
     $pageSize = 3;
-    $response = LaravelR4nkt::listLeaderboardRankings($customLeaderboardId, function ($request) use ($pageNumber, $pageSize) {
+
+    $response = LaravelR4nkt::listLeaderboardRankings('custom.leaderboard.larger', function ($request) use ($pageNumber, $pageSize) {
         $request->pageNumber($pageNumber)
             ->pageSize($pageSize);
     });
@@ -129,109 +147,74 @@ it('can paginate larger-is-better leaderboard rankings', function () {
             'custom_player_id' => 'marge',
         ],
     );
-    expect($response->json('meta.current_page'))->toBe($pageNumber);
-    expect($response->json('meta.from'))->toBe(4);
-    expect($response->json('meta.to'))->toBe(6);
-    expect($response->json('meta.last_page'))->toBe(3);
-    expect($response->json('meta.per_page'))->toBe($pageSize);
-    expect($response->json('meta.total'))->toBe(7);
+    expect($response->json('meta'))
+        ->toMatchArray([
+            'current_page' => $pageNumber,
+            'from' => 4,
+            'to' => 6,
+            'last_page' => 3,
+            'per_page' => $pageSize,
+            'total' => 7,
+        ]);
 });
 
 it('can list smaller-is-better leaderboard rankings', function () {
-    $customLeaderboardId = 'custom-leaderboard-id';
-    LaravelR4nkt::createLeaderboard(
-        $customLeaderboardId,
-        'leaderboard-name',
-        function ($request) {
-            $request->smallerIsBetter()
-                ->custom(); // only one standard leaderboard per game allowed...for now...
-        },
-    );
-
-    LaravelR4nkt::submitScore('homer', $customLeaderboardId, 20);
-    LaravelR4nkt::submitScore('marge', $customLeaderboardId, 5);
-
-    LaravelR4nkt::submitScore('bart', $customLeaderboardId, 10);
-    LaravelR4nkt::submitScore('lisa', $customLeaderboardId, 10);
-    LaravelR4nkt::submitScore('maggie', $customLeaderboardId, 10);
-
-    LaravelR4nkt::submitScore('abe', $customLeaderboardId, 20);
-    LaravelR4nkt::submitScore('mona', $customLeaderboardId, 5);
-
-    $response = LaravelR4nkt::listLeaderboardRankings($customLeaderboardId);
+    $response = LaravelR4nkt::listLeaderboardRankings('custom.leaderboard.smaller');
 
     expect($response->status())->toBe(Http::OK);
-    expect($response->collect('data')->count())->toBe(7);
-    expect($response->collect('data'))->sequence(
-        [
-            'time_span' => 'all-time',
-            'score' => 5,
-            'rank' => 0,
-            'custom_player_id' => 'marge',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 5,
-            'rank' => 1,
-            'custom_player_id' => 'mona',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 10,
-            'rank' => 2,
-            'custom_player_id' => 'bart',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 10,
-            'rank' => 3,
-            'custom_player_id' => 'lisa',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 10,
-            'rank' => 4,
-            'custom_player_id' => 'maggie',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 20,
-            'rank' => 5,
-            'custom_player_id' => 'homer',
-        ],
-        [
-            'time_span' => 'all-time',
-            'score' => 20,
-            'rank' => 6,
-            'custom_player_id' => 'abe',
-        ],
-    );
+    expect($response->collect('data'))
+        ->toHaveCount(7)
+        ->sequence(
+            [
+                'time_span' => 'all-time',
+                'score' => 5,
+                'rank' => 0,
+                'custom_player_id' => 'marge',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 5,
+                'rank' => 1,
+                'custom_player_id' => 'mona',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 10,
+                'rank' => 2,
+                'custom_player_id' => 'bart',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 10,
+                'rank' => 3,
+                'custom_player_id' => 'lisa',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 10,
+                'rank' => 4,
+                'custom_player_id' => 'maggie',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 20,
+                'rank' => 5,
+                'custom_player_id' => 'homer',
+            ],
+            [
+                'time_span' => 'all-time',
+                'score' => 20,
+                'rank' => 6,
+                'custom_player_id' => 'abe',
+            ],
+        );
 });
 
 it('can paginate smaller-is-better leaderboard rankings', function () {
-    $customLeaderboardId = 'custom-leaderboard-id';
-    LaravelR4nkt::createLeaderboard(
-        $customLeaderboardId,
-        'leaderboard-name',
-        function ($request) {
-            $request->smallerIsBetter()
-                ->custom(); // only one standard leaderboard per game allowed...for now...
-        },
-    );
-
-    LaravelR4nkt::submitScore('homer', $customLeaderboardId, 20);
-    LaravelR4nkt::submitScore('marge', $customLeaderboardId, 5);
-
-    LaravelR4nkt::submitScore('bart', $customLeaderboardId, 10);
-    LaravelR4nkt::submitScore('lisa', $customLeaderboardId, 10);
-    LaravelR4nkt::submitScore('maggie', $customLeaderboardId, 10);
-
-    LaravelR4nkt::submitScore('abe', $customLeaderboardId, 20);
-    LaravelR4nkt::submitScore('mona', $customLeaderboardId, 5);
-
     $pageNumber = 2;
     $pageSize = 3;
-    $response = LaravelR4nkt::listLeaderboardRankings($customLeaderboardId, function ($request) use ($pageNumber, $pageSize) {
+
+    $response = LaravelR4nkt::listLeaderboardRankings('custom.leaderboard.smaller', function ($request) use ($pageNumber, $pageSize) {
         $request->pageNumber($pageNumber)
             ->pageSize($pageSize);
     });
@@ -257,12 +240,15 @@ it('can paginate smaller-is-better leaderboard rankings', function () {
             'custom_player_id' => 'homer',
         ],
     );
-    expect($response->json('meta.current_page'))->toBe($pageNumber);
-    expect($response->json('meta.from'))->toBe(4);
-    expect($response->json('meta.to'))->toBe(6);
-    expect($response->json('meta.last_page'))->toBe(3);
-    expect($response->json('meta.per_page'))->toBe($pageSize);
-    expect($response->json('meta.total'))->toBe(7);
+    expect($response->json('meta'))
+        ->toMatchArray([
+            'current_page' => $pageNumber,
+            'from' => 4,
+            'to' => 6,
+            'last_page' => 3,
+            'per_page' => $pageSize,
+            'total' => 7,
+        ]);
 });
 
 it('cannot list leaderboard rankings without a custom leaderboard ID', function () {
