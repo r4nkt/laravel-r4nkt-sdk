@@ -6,5 +6,5 @@ uses(TestCase::class)->in(__DIR__);
 
 function debug($dump)
 {
-    dump($dump);
+    // dump($dump);
 }

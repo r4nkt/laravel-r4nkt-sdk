@@ -311,11 +311,11 @@ function clearCriteriaGroups()
 {
     debug('Clearing all criteria groups...');
 
-    LaravelR4nkt::listCriteriaGroups(function ($request) {
-        $request->pageSize(100);
-    })
-        ->collect('data')
-        ->each(function ($criteriaGroup) {
+    do {
+        $criteriaGroups = LaravelR4nkt::listCriteriaGroups(
+            fn ($request) => $request->pageSize(100)
+        )->collect('data');
+        $criteriaGroups->each(function ($criteriaGroup) {
             debug(" - Deleting criteria group: {$criteriaGroup['custom_id']}");
 
             expect(
@@ -323,6 +323,7 @@ function clearCriteriaGroups()
                     ->status()
             )->toBe(Http::NO_CONTENT);
         });
+    } while ($criteriaGroups->count() > 0);
 
     return test();
 }

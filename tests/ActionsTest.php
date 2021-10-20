@@ -168,11 +168,11 @@ function clearActions()
 {
     debug('Clearing all actions...');
 
-    LaravelR4nkt::listActions(function ($request) {
-        $request->pageSize(100);
-    })
-        ->collect('data')
-        ->each(function ($action) {
+    do {
+        $actions = LaravelR4nkt::listActions(
+            fn ($request) => $request->pageSize(100)
+        )->collect('data');
+        $actions->each(function ($action) {
             debug(" - Deleting action: {$action['custom_id']}");
 
             expect(
@@ -180,6 +180,7 @@ function clearActions()
                     ->status()
             )->toBe(Http::NO_CONTENT);
         });
+    } while ($actions->count() > 0);
 
     return test();
 }

@@ -171,9 +171,11 @@ function clearLeaderboards()
 {
     debug('Clearing all leaderboards...');
 
-    LaravelR4nkt::listLeaderboards()
-        ->collect('data')
-        ->each(function ($leaderboard) {
+    do {
+        $leaderboards = LaravelR4nkt::listLeaderboards(
+            fn ($request) => $request->pageSize(100)
+        )->collect('data');
+        $leaderboards->each(function ($leaderboard) {
             debug(" - Deleting leaderboard: {$leaderboard['custom_id']}");
 
             expect(
@@ -181,6 +183,7 @@ function clearLeaderboards()
                     ->status()
             )->toBe(Http::NO_CONTENT);
         });
+    } while ($leaderboards->count() > 0);
 
     return test();
 }

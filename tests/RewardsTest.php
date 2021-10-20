@@ -168,9 +168,11 @@ function clearRewards()
 {
     debug('Clearing all rewards...');
 
-    LaravelR4nkt::listRewards()
-        ->collect('data')
-        ->each(function ($reward) {
+    do {
+        $rewards = LaravelR4nkt::listRewards(
+            fn ($request) => $request->pageSize(100)
+        )->collect('data');
+        $rewards->each(function ($reward) {
             debug(" - Deleting reward: {$reward['custom_id']}");
 
             expect(
@@ -178,6 +180,7 @@ function clearRewards()
                     ->status()
             )->toBe(Http::NO_CONTENT);
         });
+    } while ($rewards->count() > 0);
 
     return test();
 }

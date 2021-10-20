@@ -215,11 +215,11 @@ function clearCriteria()
 {
     debug('Clearing all criteria...');
 
-    LaravelR4nkt::listCriteria(function ($request) {
-        $request->pageSize(100);
-    })
-        ->collect('data')
-        ->each(function ($criterion) {
+    do {
+        $criteria = LaravelR4nkt::listCriteria(
+            fn ($request) => $request->pageSize(100)
+        )->collect('data');
+        $criteria->each(function ($criterion) {
             debug(" - Deleting criterion: {$criterion['custom_id']}");
 
             expect(
@@ -227,6 +227,7 @@ function clearCriteria()
                     ->status()
             )->toBe(Http::NO_CONTENT);
         });
+    } while ($criteria->count() > 0);
 
     return test();
 }

@@ -153,19 +153,22 @@ function clearPlayers()
 {
     debug('Clearing all players...');
 
-    LaravelR4nkt::listPlayers()
-        ->collect('data')
-        ->each(function ($player) {
+    do {
+        $players = LaravelR4nkt::listPlayers(
+            fn ($request) => $request->pageSize(100)
+        )->collect('data');
+        $players->each(function ($player) {
             debug(" - Deleting player: {$player['custom_id']}");
 
             expect(
                 LaravelR4nkt::deletePlayer($player['custom_id'])
                     ->status()
             )->toBe(Http::NO_CONTENT);
-
-            /** @todo Consider removing this if/when deleting players is handled "better". */
-            usleep(250000); // Sleep long enough for the player cleanup to take place and for player to actually be deleted...
         });
+
+        /** @todo Consider removing this if/when deleting players is handled "better". */
+        usleep(250000); // Sleep long enough for the player cleanup to take place and for player to actually be deleted...
+    } while ($players->count() > 0);
 
     return test();
 }
