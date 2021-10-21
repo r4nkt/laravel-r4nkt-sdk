@@ -11,4 +11,14 @@ class ListPlayerBadges extends PlayerBadgeRequest
     use AllowsPagination;
 
     protected string $method = 'GET';
+
+    public function includeAchievement()
+    {
+        return $this->include('achievement');
+    }
+
+    public function includePlayer()
+    {
+        return $this->include('player');
+    }
 }

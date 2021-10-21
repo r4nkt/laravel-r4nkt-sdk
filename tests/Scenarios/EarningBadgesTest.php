@@ -5,6 +5,8 @@ use R4nkt\LaravelR4nkt\Tests\Scenarios\PrepsGame;
 
 uses(PrepsGame::class)->group('scenario');
 
+beforeEach()->prepGame();
+
 afterEach(function () {
     clearPlayers();
     clearLeaderboards();
@@ -14,8 +16,6 @@ afterEach(function () {
     clearCriteria();
     clearActions();
 });
-
-beforeEach()->prepGame();
 
 it('correctly awards simple badges', function () {
     expect(
@@ -36,7 +36,38 @@ it('correctly awards simple badges', function () {
         ->toContain(
             'achievement.slay.a.red.dragon',
         );
-});
+
+    expect($response->json('data.0.player'))->toBeNull();
+    expect($response->json('data.0.achievement'))->toBeNull();
+})->only();
+
+it('includes player and achievement when requested', function () {
+    expect(
+        LaravelR4nkt::reportActivity(
+            'player.earn.simple.badge',
+            'action.slay.a.red.dragon',
+        )->status()
+    )->toBe(Http::CREATED);
+
+    // sleep(1); /** @todo This may be necessary when hitting a server that processes activities asynchronously. */
+
+    $response = LaravelR4nkt::listPlayerBadges(
+        'player.earn.simple.badge',
+        function ($request) {
+            $request->includePlayer()
+                ->includeAchievement();
+        }
+    );
+
+    expect(collect($response->json('data'))->pluck('custom_achievement_id'))
+        ->toHaveCount(1)
+        ->toContain(
+            'achievement.slay.a.red.dragon',
+        );
+
+    expect($response->json('data.0.player'))->not()->toBeNull();
+    expect($response->json('data.0.achievement'))->not()->toBeNull();
+})->only();
 
 it('correctly awards complex badges', function () {
     $playerId = 'player.earn.complex.badge';
