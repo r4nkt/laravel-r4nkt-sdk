@@ -8,3 +8,14 @@ function debug($dump)
 {
     // dump($dump);
 }
+
+function clearAll()
+{
+    clearPlayers();
+    clearLeaderboards();
+    clearAchievements();
+    clearRewards();
+    clearCriteriaGroups();
+    clearCriteria();
+    clearActions();
+}
