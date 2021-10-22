@@ -7,28 +7,28 @@ uses(PrepsGame::class)->group('scenario');
 
 beforeEach()->prepGame();
 
-afterEach(function () {
-    clearPlayers();
-    clearLeaderboards();
-    clearAchievements();
-    clearRewards();
-    clearCriteriaGroups();
-    clearCriteria();
-    clearActions();
-});
+afterEach()->clearAll();
 
 it('correctly awards simple badges', function () {
+    /**
+     * First, earn a simple badge...
+     */
+    $simplePlayerId = 'player.earn.simple.badge';
+
     expect(
         LaravelR4nkt::reportActivity(
-            'player.earn.simple.badge',
+            $simplePlayerId,
             'action.slay.a.red.dragon',
         )->status()
     )->toBe(Http::CREATED);
 
     // sleep(1); /** @todo This may be necessary when hitting a server that processes activities asynchronously. */
 
+    /**
+     * Request badges *without* including player/achievement.
+     */
     $response = LaravelR4nkt::listPlayerBadges(
-        'player.earn.simple.badge',
+        $simplePlayerId,
     );
 
     expect(collect($response->json('data'))->pluck('custom_achievement_id'))
@@ -37,22 +37,15 @@ it('correctly awards simple badges', function () {
             'achievement.slay.a.red.dragon',
         );
 
-    expect($response->json('data.0.player'))->toBeNull();
-    expect($response->json('data.0.achievement'))->toBeNull();
-})->only();
+    expect($response->json('data.0'))
+        ->player->toBeNull()
+        ->achievement->toBeNull();
 
-it('includes player and achievement when requested', function () {
-    expect(
-        LaravelR4nkt::reportActivity(
-            'player.earn.simple.badge',
-            'action.slay.a.red.dragon',
-        )->status()
-    )->toBe(Http::CREATED);
-
-    // sleep(1); /** @todo This may be necessary when hitting a server that processes activities asynchronously. */
-
+    /**
+     * Request again, but *include* player/achievement.
+     */
     $response = LaravelR4nkt::listPlayerBadges(
-        'player.earn.simple.badge',
+        $simplePlayerId,
         function ($request) {
             $request->includePlayer()
                 ->includeAchievement();
@@ -65,12 +58,14 @@ it('includes player and achievement when requested', function () {
             'achievement.slay.a.red.dragon',
         );
 
-    expect($response->json('data.0.player'))->not()->toBeNull();
-    expect($response->json('data.0.achievement'))->not()->toBeNull();
-})->only();
+    expect($response->json('data.0'))
+        ->player->not()->toBeNull()
+        ->achievement->not()->toBeNull();
 
-it('correctly awards complex badges', function () {
-    $playerId = 'player.earn.complex.badge';
+    /**
+     * Now, earn a complex badge (as well as other badges along the way)...
+     */
+    $complexPlayerId = 'player.earn.complex.badge';
 
     // criteria.group.master.player complete when the following criterion
     // is complete:
@@ -80,7 +75,7 @@ it('correctly awards complex badges', function () {
     //  - criteria.group.slayer.of.legends
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.complete.quest',
         )->status()
     )->toBe(Http::CREATED);
@@ -97,14 +92,14 @@ it('correctly awards complex badges', function () {
     //  - criterion.open.100.chests
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.find.secret.room',
             50,
         )->status()
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.open.chest',
             100,
         )->status()
@@ -115,14 +110,14 @@ it('correctly awards complex badges', function () {
     //  - criterion.break.100.breakables
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.smash.door',
             5,
         )->status()
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.break.breakable',
             100,
         )->status()
@@ -133,14 +128,14 @@ it('correctly awards complex badges', function () {
     //  - criterion.disarm.5.traps
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.detect.trap',
             5,
         )->status()
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.disarm.trap',
             5,
         )->status()
@@ -153,25 +148,25 @@ it('correctly awards complex badges', function () {
     //  - criterion.solve.five.doors.puzzle
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.solve.water.chamber.puzzle',
         )->status()
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.solve.lava.field.puzzle',
         )->status()
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.solve.clockworks.puzzle',
         )->status()
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.solve.five.doors.puzzle',
         )->status()
     )->toBe(Http::CREATED);
@@ -189,7 +184,7 @@ it('correctly awards complex badges', function () {
     //  - criterion.defeat.ethereal.queen.as.wizard
     expect(
         LaravelR4nkt::reportActivity(
-            customPlayerId: $playerId,
+            customPlayerId: $complexPlayerId,
             customActionId: 'action.defeat.ethereal.queen',
             callback: function ($request) {
                 $request->customData(['class' => 'cleric']);
@@ -198,7 +193,7 @@ it('correctly awards complex badges', function () {
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            customPlayerId: $playerId,
+            customPlayerId: $complexPlayerId,
             customActionId: 'action.defeat.ethereal.queen',
             callback: function ($request) {
                 $request->customData(['class' => 'rogue']);
@@ -207,7 +202,7 @@ it('correctly awards complex badges', function () {
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            customPlayerId: $playerId,
+            customPlayerId: $complexPlayerId,
             customActionId: 'action.defeat.ethereal.queen',
             callback: function ($request) {
                 $request->customData(['class' => 'warrior']);
@@ -216,7 +211,7 @@ it('correctly awards complex badges', function () {
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            customPlayerId: $playerId,
+            customPlayerId: $complexPlayerId,
             customActionId: 'action.defeat.ethereal.queen',
             callback: function ($request) {
                 $request->customData(['class' => 'wizard']);
@@ -230,21 +225,21 @@ it('correctly awards complex badges', function () {
     //  - criterion.deal.100.critical.strikes
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.slay.champion',
             100,
         )->status()
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.dodge.attack',
             500,
         )->status()
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.deal.critical.strike',
             100,
         )->status()
@@ -255,20 +250,20 @@ it('correctly awards complex badges', function () {
     //  - criterion.slay.hydra
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.slay.a.red.dragon',
         )->status()
     )->toBe(Http::CREATED);
     expect(
         LaravelR4nkt::reportActivity(
-            $playerId,
+            $complexPlayerId,
             'action.slay.hydra',
         )->status()
     )->toBe(Http::CREATED);
 
     // sleep(3); /** @todo This may be necessary when hitting a server that processes activities asynchronously. */
 
-    $response = LaravelR4nkt::listPlayerBadges($playerId);
+    $response = LaravelR4nkt::listPlayerBadges($complexPlayerId);
 
     expect(collect($response->json('data'))->pluck('custom_achievement_id'))
         ->toHaveCount(23)
