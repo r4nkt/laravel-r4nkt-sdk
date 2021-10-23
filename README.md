@@ -15,15 +15,9 @@ This repo can be used to scaffold a Laravel package. Follow these steps to get s
 5. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
 ---
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+[R4nkt](https://r4nkt.com) makes it easy to gamify just about anything. This package makes it even easier to gamify your Laravel-based projects.
 
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-r4nkt-sdk.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-r4nkt-sdk)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Before using this package we highly recommend reading [the documentation over at R4nkt](https://docs.r4nkt.com).
 
 ## Installation
 
@@ -36,27 +30,27 @@ composer require r4nkt/laravel-r4nkt-sdk
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --provider="R4nkt\\LaravelR4nkt\LaravelR4nkt\LaravelR4nktServiceProvider" --tag="laravel-r4nkt-sdk-migrations"
+php artisan vendor:publish --provider="R4nkt\\LaravelR4nkt\\LaravelR4nktServiceProvider" --tag="laravel-r4nkt-sdk-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="R4nkt\\LaravelR4nkt\LaravelR4nkt\LaravelR4nktServiceProvider" --tag="laravel-r4nkt-sdk-config"
+php artisan vendor:publish --provider="R4nkt\\LaravelR4nkt\\LaravelR4nktServiceProvider" --tag="laravel-r4nkt-sdk-config"
 ```
 
 This is the contents of the published config file:
 
 ```php
 return [
+    /** @todo */
 ];
 ```
 
 ## Usage
 
 ```php
-$laravel-r4nkt-sdk = new R4nkt\\LaravelR4nkt\LaravelR4nkt();
-echo $laravel-r4nkt-sdk->echoPhrase('Hello, R4nkt\\LaravelR4nkt!');
+/** @todo */
 ```
 
 ## Testing
@@ -75,7 +69,7 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+If you discover any security related issues, please email support@r4nkt.com instead of using the issue tracker.
 
 ## Credits
 
