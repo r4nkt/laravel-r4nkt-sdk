@@ -106,7 +106,7 @@ it('can create a criteria group with attached criteria groups', function () {
     expect($response->json('data.name'))->toBe($name);
 
     $response = LaravelR4nkt::getCriteriaGroup($customId, function ($request) {
-        $request->includeCriteriaGroups();
+        $request->includeNestedCriteriaGroups();
     });
 
     expect($response->status())->toBe(Http::OK);
@@ -166,7 +166,7 @@ it('can create a criteria group with both attached criteria and criteria groups'
 
     $response = LaravelR4nkt::getCriteriaGroup($customId, function ($request) {
         $request->includeCriteria()
-            ->includeCriteriaGroups();
+            ->includeNestedCriteriaGroups();
     });
 
     expect($response->status())->toBe(Http::OK);

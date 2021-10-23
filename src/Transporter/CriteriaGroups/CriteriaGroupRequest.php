@@ -8,7 +8,10 @@ use R4nkt\LaravelR4nkt\Transporter\R4nktRequest;
 
 class CriteriaGroupRequest extends R4nktRequest
 {
-    protected const BASE_PATH = 'criteria-groups';
+    protected function finalizePath()
+    {
+        parent::finalizePath();
 
-    protected string $path = self::BASE_PATH;
+        $this->addToPath('criteria-groups');
+    }
 }

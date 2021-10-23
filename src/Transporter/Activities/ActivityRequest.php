@@ -8,7 +8,10 @@ use R4nkt\LaravelR4nkt\Transporter\R4nktRequest;
 
 class ActivityRequest extends R4nktRequest
 {
-    protected const BASE_PATH = 'activities';
+    protected function finalizePath()
+    {
+        parent::finalizePath();
 
-    protected string $path = self::BASE_PATH;
+        $this->addToPath('activities');
+    }
 }

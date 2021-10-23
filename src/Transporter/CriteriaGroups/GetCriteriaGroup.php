@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\CriteriaGroups;
 
-use R4nkt\LaravelR4nkt\Transporter\Concerns\HasCustomIdInPath;
+use R4nkt\LaravelR4nkt\Transporter\Concerns;
 
 class GetCriteriaGroup extends CriteriaGroupRequest
 {
-    use HasCustomIdInPath;
+    use Concerns\HasCustomIdInPath;
+    use Concerns\IncludesCriteria;
+    use Concerns\IncludesNestedCriteriaGroups;
 
     protected string $method = 'GET';
 
@@ -19,16 +21,8 @@ class GetCriteriaGroup extends CriteriaGroupRequest
 
     protected function finalizePath()
     {
-        $this->setPath(self::BASE_PATH . '/' . $this->customId);
-    }
+        parent::finalizePath();
 
-    public function includeCriteria()
-    {
-        return $this->include('criteria');
-    }
-
-    public function includeCriteriaGroups()
-    {
-        return $this->include('criteria-groups');
+        $this->addCustomIdToPath();
     }
 }

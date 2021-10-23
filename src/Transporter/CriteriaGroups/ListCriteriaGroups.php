@@ -4,21 +4,13 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\CriteriaGroups;
 
-use R4nkt\LaravelR4nkt\Transporter\Concerns\AllowsPagination;
+use R4nkt\LaravelR4nkt\Transporter\Concerns;
 
 class ListCriteriaGroups extends CriteriaGroupRequest
 {
-    use AllowsPagination;
+    use Concerns\AllowsPagination;
+    use Concerns\IncludesCriteria;
+    use Concerns\IncludesNestedCriteriaGroups;
 
     protected string $method = 'GET';
-
-    public function includeCriteria()
-    {
-        return $this->include('criteria');
-    }
-
-    public function includeCriteriaGroups()
-    {
-        return $this->include('criteria-groups');
-    }
 }

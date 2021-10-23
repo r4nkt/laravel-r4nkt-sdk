@@ -19,6 +19,8 @@ class DeleteCriteriaGroup extends CriteriaGroupRequest
 
     protected function finalizePath()
     {
-        $this->setPath(self::BASE_PATH . '/' . $this->customId);
+        parent::finalizePath();
+
+        $this->addCustomIdToPath();
     }
 }

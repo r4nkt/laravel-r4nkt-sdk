@@ -23,7 +23,9 @@ class UpdateCriteriaGroup extends CriteriaGroupRequest
 
     protected function finalizePath()
     {
-        $this->setPath(self::BASE_PATH . '/' . $this->customId);
+        parent::finalizePath();
+
+        $this->addCustomIdToPath();
     }
 
     public function operator(string $operator)

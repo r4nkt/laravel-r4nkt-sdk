@@ -23,7 +23,9 @@ class UpdateAchievement extends AchievementRequest
 
     protected function finalizePath()
     {
-        $this->setPath(self::BASE_PATH . '/' . $this->customId);
+        parent::finalizePath();
+
+        $this->addCustomIdToPath();
     }
 
     public function isSecret(bool $isSecret)

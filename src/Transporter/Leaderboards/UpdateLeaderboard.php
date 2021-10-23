@@ -23,6 +23,8 @@ class UpdateLeaderboard extends LeaderboardRequest
 
     protected function finalizePath()
     {
-        $this->setPath(self::BASE_PATH . '/' . $this->customId);
+        parent::finalizePath();
+
+        $this->addCustomIdToPath();
     }
 }

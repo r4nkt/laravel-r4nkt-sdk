@@ -23,4 +23,9 @@ trait HasCustomIdInPath
             throw IncompleteRequest::missingRequiredParameter('custom ID');
         }
     }
+
+    protected function addCustomIdToPath()
+    {
+        $this->addToPath($this->customId);
+    }
 }

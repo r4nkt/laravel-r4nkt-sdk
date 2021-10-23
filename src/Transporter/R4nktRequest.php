@@ -11,6 +11,7 @@ use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Str;
 use JustSteveKing\Transporter\Request;
 
 /**
@@ -18,19 +19,29 @@ use JustSteveKing\Transporter\Request;
  */
 class R4nktRequest extends Request
 {
-    protected const BASE_URL = 'https://api.r4nkt.com/v1/games/';
-
     // protected string $method = 'GET';
-    // protected string $baseUrl = 'https://api.r4nkt.com/v1/games/{game_id}';
-    // protected string $path = '';
-
-    // protected array $data = [
-    //     'completed' => true,
-    // ];
+    protected string $path = ''; /** @todo Remove this if/when laravel-transporter updated: https://github.com/JustSteveKing/laravel-transporter/pull/24 */
+    // protected string $baseUrl;
 
     protected array $includes = [];
 
     public ?int $retryAfter = null;
+
+    protected function withRequest(PendingRequest $request): void
+    {
+        $this->configureBaseUrl();
+
+        $this->pushCustomHandlers($request);
+
+        $request->withToken(config('r4nkt.api_token'))
+            ->acceptJson()
+            ->asJson();
+    }
+
+    protected function configureBaseUrl()
+    {
+        $this->setBaseUrl(config('r4nkt.base_url'));
+    }
 
     public function send(): Response
     {
@@ -41,6 +52,18 @@ class R4nktRequest extends Request
         $this->finalizePath();
 
         return parent::send();
+    }
+
+    protected function finalizePath()
+    {
+        $gameId = config('r4nkt.game_id');
+
+        $this->addToPath("games/{$gameId}");
+    }
+
+    protected function addToPath(string $path)
+    {
+        $this->setPath((string) Str::of($this->path())->finish('/')->append($path));
     }
 
     protected function include(string $include): static
@@ -59,24 +82,6 @@ class R4nktRequest extends Request
         }
 
         $this->withQuery(['include' => $includes->implode(',')]);
-    }
-
-    protected function withRequest(PendingRequest $request): void
-    {
-        $this->configureBaseUrl();
-
-        $this->pushCustomHandlers($request);
-
-        $request->withToken(config('r4nkt.api_token'))
-            ->acceptJson()
-            ->asJson();
-    }
-
-    protected function configureBaseUrl()
-    {
-        $gameId = config('r4nkt.game_id');
-
-        $this->setBaseUrl(self::BASE_URL . $gameId);
     }
 
     protected function pushCustomHandlers(PendingRequest $request)
@@ -134,11 +139,6 @@ class R4nktRequest extends Request
     }
 
     protected function guardAgainstMissing()
-    {
-        // ...
-    }
-
-    protected function finalizePath()
     {
         // ...
     }
