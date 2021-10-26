@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter;
 
+use Closure;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Middleware;
@@ -136,6 +137,18 @@ class R4nktRequest extends Request
         return function ($numberOfRetries) {
             return 1000 * ($this->retryAfter ?: $numberOfRetries);
         };
+    }
+
+    /**
+     * Inspiration: https://twitter.com/freekmurze/status/1452292850713088004
+     */
+    public function if(mixed $if, Closure $then, Closure $else = null)
+    {
+        value($if, $this)
+            ? value($then, $this)
+            : value($else, $this);
+
+        return $this;
     }
 
     protected function guardAgainstMissing()
