@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace R4nkt\LaravelR4nkt\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -15,7 +14,10 @@ use R4nkt\LaravelR4nkt\Transporter\Activities\ReportActivity as ReportActivityTr
 
 class ReportActivity implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
@@ -24,7 +26,8 @@ class ReportActivity implements ShouldQueue
      */
     public function __construct(
         private ActivityData $activity,
-    ) {}
+    ) {
+    }
 
     /**
      * Execute the job.

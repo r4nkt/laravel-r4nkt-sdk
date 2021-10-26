@@ -32,8 +32,7 @@ trait ManagesActivities
         ?string $customSessionId = null,
         ?array $customData = null,
         ?string $dateTimeUtc = null,
-    )
-    {
+    ) {
         ReportActivityJob::dispatch(new ActivityData(
             customPlayerId: $customPlayerId,
             customActionId: $customActionId,
