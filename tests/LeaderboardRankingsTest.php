@@ -39,25 +39,25 @@ beforeEach(function () {
      *  - same people,
      *  - same scores
      */
-    LaravelR4nkt::submitScore('homer', 'custom.leaderboard.larger', 20);
-    LaravelR4nkt::submitScore('marge', 'custom.leaderboard.larger', 5);
+    LaravelR4nkt::queueScoreSubmission('homer', 'custom.leaderboard.larger', 20);
+    LaravelR4nkt::queueScoreSubmission('marge', 'custom.leaderboard.larger', 5);
 
-    LaravelR4nkt::submitScore('bart', 'custom.leaderboard.larger', 10);
-    LaravelR4nkt::submitScore('lisa', 'custom.leaderboard.larger', 10);
-    LaravelR4nkt::submitScore('maggie', 'custom.leaderboard.larger', 10);
+    LaravelR4nkt::queueScoreSubmission('bart', 'custom.leaderboard.larger', 10);
+    LaravelR4nkt::queueScoreSubmission('lisa', 'custom.leaderboard.larger', 10);
+    LaravelR4nkt::queueScoreSubmission('maggie', 'custom.leaderboard.larger', 10);
 
-    LaravelR4nkt::submitScore('abe', 'custom.leaderboard.larger', 20);
-    LaravelR4nkt::submitScore('mona', 'custom.leaderboard.larger', 5);
+    LaravelR4nkt::queueScoreSubmission('abe', 'custom.leaderboard.larger', 20);
+    LaravelR4nkt::queueScoreSubmission('mona', 'custom.leaderboard.larger', 5);
 
-    LaravelR4nkt::submitScore('homer', 'custom.leaderboard.smaller', 20);
-    LaravelR4nkt::submitScore('marge', 'custom.leaderboard.smaller', 5);
+    LaravelR4nkt::queueScoreSubmission('homer', 'custom.leaderboard.smaller', 20);
+    LaravelR4nkt::queueScoreSubmission('marge', 'custom.leaderboard.smaller', 5);
 
-    LaravelR4nkt::submitScore('bart', 'custom.leaderboard.smaller', 10);
-    LaravelR4nkt::submitScore('lisa', 'custom.leaderboard.smaller', 10);
-    LaravelR4nkt::submitScore('maggie', 'custom.leaderboard.smaller', 10);
+    LaravelR4nkt::queueScoreSubmission('bart', 'custom.leaderboard.smaller', 10);
+    LaravelR4nkt::queueScoreSubmission('lisa', 'custom.leaderboard.smaller', 10);
+    LaravelR4nkt::queueScoreSubmission('maggie', 'custom.leaderboard.smaller', 10);
 
-    LaravelR4nkt::submitScore('abe', 'custom.leaderboard.smaller', 20);
-    LaravelR4nkt::submitScore('mona', 'custom.leaderboard.smaller', 5);
+    LaravelR4nkt::queueScoreSubmission('abe', 'custom.leaderboard.smaller', 20);
+    LaravelR4nkt::queueScoreSubmission('mona', 'custom.leaderboard.smaller', 5);
 });
 
 afterEach(function () {

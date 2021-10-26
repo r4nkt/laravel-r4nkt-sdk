@@ -53,7 +53,7 @@ class ReportActivity implements ShouldQueue
             )
             ->if(
                 $this->activity->dateTimeUtc,
-                fn ($request) => $request->customdateTimeUtcId($this->activity->dateTimeUtc),
+                fn ($request) => $request->customDateTimeUtc($this->activity->dateTimeUtc),
             )
             ->send();
     }
