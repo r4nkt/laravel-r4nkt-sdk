@@ -30,8 +30,7 @@ trait ManagesScores
         string $customLeaderboardId,
         int $score,
         ?string $dateTimeUtc = null,
-    )
-    {
+    ) {
         SubmitScoreJob::dispatch(new ScoreSubmissionData(
             customPlayerId: $customPlayerId,
             customLeaderboardId: $customLeaderboardId,
