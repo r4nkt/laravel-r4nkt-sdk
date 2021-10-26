@@ -1,6 +1,5 @@
 <?php
 
-use JustSteveKing\StatusCode\Http;
 use R4nkt\LaravelR4nkt\Tests\Scenarios\PrepsGame;
 
 uses(PrepsGame::class)->group('scenario');
