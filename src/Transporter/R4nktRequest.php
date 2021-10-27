@@ -20,10 +20,6 @@ use JustSteveKing\Transporter\Request;
  */
 class R4nktRequest extends Request
 {
-    // protected string $method = 'GET';
-    protected string $path = ''; /** @todo Remove this if/when laravel-transporter updated: https://github.com/JustSteveKing/laravel-transporter/pull/24 */
-    // protected string $baseUrl;
-
     protected array $includes = [];
 
     public ?int $retryAfter = null;
