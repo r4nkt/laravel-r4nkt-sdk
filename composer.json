@@ -20,7 +20,8 @@
         "illuminate/contracts": "^8.37",
         "juststeveking/laravel-transporter": "^0.9.3",
         "spatie/data-transfer-object": "^3.7",
-        "spatie/laravel-package-tools": "^1.4.3"
+        "spatie/laravel-package-tools": "^1.4.3",
+        "spatie/laravel-webhook-client": "^3.0"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.3",
