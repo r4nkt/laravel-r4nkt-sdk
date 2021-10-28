@@ -20,7 +20,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | R4nkt requires that you use an API token when communicating with its API.
-    | Make one at the r4nkt API settings page: https://r4nkt.com/settings#/api
+    | Make one at the r4nkt API Tokens settings page:
+    |  - https://r4nkt.com/user/api-tokens
     |
     */
 
@@ -32,7 +33,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | R4nkt also requires that you specify the game ID for each API call. Find
-    | this at the game configuration settings: https://r4nkt.com/settings/games
+    | this at the game configuration settings:
+    |  - https://r4nkt.com/game
+    |  - https://r4nkt.com/test-game (if you have a test game)
     |
     */
 
@@ -44,8 +47,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | R4nkt will sign webhooks using a secret. You can find the secret used for
-    | individual games at the game configuration settings:
-    |  - https://r4nkt.com/settings/games
+    | your games at the game configuration settings:
+    |  - https://r4nkt.com/game
+    |  - https://r4nkt.com/test-game (if you have a test game)
     |
     */
 
@@ -59,11 +63,11 @@ return [
     | This class is responsible for determining the player's custom ID.
     |
     | This class should implement
-    | `R4nkt\Laravel\Support\CustomPlayerIdResolver\CustomPlayerIdResolver`
+    | `R4nkt\LaravelR4nkt\Support\CustomPlayerIdResolver\CustomPlayerIdResolver`
     |
     */
 
-    'custom_player_id_resolver' => \R4nkt\Laravel\Support\CustomPlayerIdResolver\PrimaryKeyCustomPlayerIdResolver::class,
+    'custom_player_id_resolver' => \R4nkt\LaravelR4nkt\Support\CustomPlayerIdResolver\PrimaryKeyCustomPlayerIdResolver::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -73,11 +77,11 @@ return [
     | This class is responsible for decoding the player's custom ID.
     |
     | This class should implement
-    | `R4nkt\Laravel\Support\CustomPlayerIdDecoder\CustomPlayerIdDecoder`
+    | `R4nkt\LaravelR4nkt\Support\CustomPlayerIdDecoder\CustomPlayerIdDecoder`
     |
     */
 
-    'custom_player_id_decoder' => \R4nkt\Laravel\Support\CustomPlayerIdDecoder\PrimaryKeyCustomPlayerIdDecoder::class,
+    'custom_player_id_decoder' => \R4nkt\LaravelR4nkt\Support\CustomPlayerIdDecoder\PrimaryKeyCustomPlayerIdDecoder::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -88,11 +92,11 @@ return [
     | properly formatted string.
     |
     | This class should implement
-    | `R4nkt\Laravel\Support\DateTimeUtcResolver\DateTimeUtcResolver`
+    | `R4nkt\LaravelR4nkt\Support\DateTimeUtcResolver\DateTimeUtcResolver`
     |
     */
 
-    'date_time_utc_resolver' => \R4nkt\Laravel\Support\DateTimeUtcResolver\DefaultDateTimeUtcResolver::class,
+    'date_time_utc_resolver' => \R4nkt\LaravelR4nkt\Support\DateTimeUtcResolver\DefaultDateTimeUtcResolver::class,
 
     /*
     |--------------------------------------------------------------------------
