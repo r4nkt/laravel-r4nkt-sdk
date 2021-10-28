@@ -37,6 +37,7 @@
         <junit outputFile="build/report.junit.xml"/>
     </logging>
     <php>
+        <server name="APP_DEBUG" value="true"/>
         <server name="R4NKT_API_TOKEN" value="<your.api.token.goes.here>"/>
         <server name="R4NKT_GAME_ID" value="<your.game.id.goes.here>"/>
         <server name="R4NKT_BASE_URL" value="<your.api.token.goes.here>"/>
