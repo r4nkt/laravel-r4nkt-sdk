@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace R4nkt\LaravelR4nkt\Transporter;
 
 use Closure;
+use Exception;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Middleware;
@@ -14,13 +15,15 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Str;
 use JustSteveKing\Transporter\Request;
+use R4nkt\LaravelR4nkt\Concerns\Requires;
+use ReflectionClass;
 
 /**
  * @todo Make abstract...?  Can't use it alone...
  */
 class R4nktRequest extends Request
 {
-    protected array $includes = [];
+    private array $includes = [];
 
     public ?int $retryAfter = null;
 
@@ -149,6 +152,48 @@ class R4nktRequest extends Request
 
     protected function guardAgainstMissing()
     {
-        // ...
+        foreach ($this->resolveRequired() as $required) {
+            $method = $this->buildGuardAgainstMissingMethod($required);
+
+            if (! method_exists($this, $method)) {
+                throw new Exception("Required method, {$method}, does not exist");
+            }
+
+            $this->$method();
+        }
+    }
+
+    private function buildGuardAgainstMissingMethod(Requires $required): string
+    {
+        return (string) Str::of($required)
+            ->studly()
+            ->prepend('guardAgainstMissing');
+    }
+
+    private function resolveRequired(): array
+    {
+        $required = [];
+
+        foreach ($this->classNameChain() as $class) {
+            $attributes = (new ReflectionClass($class))->getAttributes(Requires::class);
+
+            foreach ($attributes as $attribute) {
+                $required[] = $attribute->newInstance();
+            }
+        }
+
+        return $required;
+    }
+
+    /**
+     * Source: https://stackoverflow.com/questions/17455562/how-to-get-the-hierarchical-order-of-properties-with-get-object-vars
+     *
+     * @todo If we only expect the child class to specify requirements, then this is not needed.
+     */
+    private function classNameChain(): array
+    {
+        $class = $this::class;
+
+        return array_reverse(class_parents($class), true) + [$class => $class];
     }
 }
