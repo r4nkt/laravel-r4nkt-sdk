@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\Activities;
 
+use R4nkt\LaravelR4nkt\Concerns\Requires;
 use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
 use R4nkt\LaravelR4nkt\Transporter\Concerns;
 
+#[Requires('custom-player-id')]
+#[Requires('custom-action-id')]
 class ReportActivity extends ActivityRequest
 {
     use Concerns\PassesCustomPlayerId;
@@ -16,12 +19,6 @@ class ReportActivity extends ActivityRequest
     use Concerns\PassesDateTimeUtc;
 
     protected string $method = 'POST';
-
-    protected function guardAgainstMissing()
-    {
-        $this->guardAgainstMissingCustomPlayerId();
-        $this->guardAgainstMissingCustomActionId();
-    }
 
     protected function guardAgainstMissingCustomPlayerId()
     {

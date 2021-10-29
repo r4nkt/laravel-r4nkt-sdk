@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\Players;
 
+use R4nkt\LaravelR4nkt\Concerns\Requires;
 use R4nkt\LaravelR4nkt\Transporter\Concerns;
 
+#[Requires('custom-id')]
 class UpdatePlayer extends PlayerRequest
 {
     use Concerns\HasCustomIdInPath;
@@ -13,11 +15,6 @@ class UpdatePlayer extends PlayerRequest
     use Concerns\PassesCustomData;
 
     protected string $method = 'PUT';
-
-    protected function guardAgainstMissing()
-    {
-        $this->guardAgainstMissingCustomId();
-    }
 
     protected function finalizePath()
     {

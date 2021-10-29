@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace R4nkt\LaravelR4nkt\Transporter\PlayerBadges;
 
+use R4nkt\LaravelR4nkt\Concerns\Requires;
 use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
 use R4nkt\LaravelR4nkt\Transporter\R4nktRequest;
 
+#[Requires('custom-player-id')]
 class PlayerBadgeRequest extends R4nktRequest
 {
     protected string $customPlayerId;
-
-    protected function guardAgainstMissing()
-    {
-        $this->guardAgainstMissingCustomPlayerId();
-    }
 
     protected function guardAgainstMissingCustomPlayerId()
     {
