@@ -16,7 +16,6 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Str;
 use JustSteveKing\Transporter\Request;
 use R4nkt\LaravelR4nkt\Concerns\Requires;
-use R4nkt\LaravelR4nkt\Exceptions\IncompleteRequest;
 use ReflectionClass;
 
 /**
@@ -175,7 +174,7 @@ class R4nktRequest extends Request
     {
         $required = [];
 
-        foreach($this->classNameChain() as $class) {
+        foreach ($this->classNameChain() as $class) {
             $attributes = (new ReflectionClass($class))->getAttributes(Requires::class);
 
             foreach ($attributes as $attribute) {

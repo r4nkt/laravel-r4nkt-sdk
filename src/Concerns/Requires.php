@@ -9,7 +9,8 @@ class Requires
 {
     public function __construct(
         public string $required,
-    ) {}
+    ) {
+    }
 
     public function __toString()
     {
