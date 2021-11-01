@@ -8,4 +8,4 @@ uses()->group('player-badge');
 it('cannot get player badges without a custom player id', function () {
     ListPlayerBadges::build()
         ->send();
-})->throws(IncompleteRequest::class)->only();
+})->throws(IncompleteRequest::class);

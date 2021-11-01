@@ -19,7 +19,7 @@ it('correctly awards simple badges', function () {
         customActionId: 'action.slay.a.red.dragon',
     );
 
-    // sleep(1); /** @todo This may be necessary when hitting a server that processes activities asynchronously. */
+    sleep(1); /** @todo This may be necessary when hitting a server that processes activities asynchronously. */
 
     /**
      * Request badges *without* including player/achievement.
@@ -210,7 +210,7 @@ it('correctly awards simple badges', function () {
         customActionId: 'action.slay.hydra',
     );
 
-    // sleep(3); /** @todo This may be necessary when hitting a server that processes activities asynchronously. */
+    sleep(1); /** @todo This may be necessary when hitting a server that processes activities asynchronously. */
 
     $response = LaravelR4nkt::listPlayerBadges($complexPlayerId);
 
